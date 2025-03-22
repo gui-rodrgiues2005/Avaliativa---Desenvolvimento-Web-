@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Avaliativa.Models.Participante>
+
+@{
+    ViewData["Title"] = "Lista de Participantes";
+}
+
+<h2 class="text-center mt-3">Lista de Participantes</h2>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <p class="text-muted">Abaixo está a lista dos participantes cadastrados e os eventos que estão participando.</p>
+    <div class="d-flex gap-2">
+        <a asp-action="Create" class="btn btn-success">Adicionar Participante</a>
+        <a asp-action="Create" class="btn btn-primary">Adicionar Evento</a>
+    </div>
+</div>
+
+
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Evento</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Nome</td>
+                <td>@item.Email</td>
+                <td>@(item.Evento != null ? item.Evento.Nome : "Nenhum evento")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Detalhes</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
