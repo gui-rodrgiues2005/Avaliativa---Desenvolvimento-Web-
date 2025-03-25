@@ -1,0 +1,138 @@
+﻿@model Avaliativa.Models.Evento
+
+@{
+    ViewData["Title"] = "Editar Evento";
+}
+
+<style>
+    body {
+        background-color: #f4f4f4;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 50px;
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+        .header h2 {
+            color: #2C3E50;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .header hr {
+            border: 0;
+            border-top: 2px solid #2C3E50;
+            width: 50px;
+            margin: 20px auto;
+        }
+
+    .form-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-size: 18px;
+        color: #34495E;
+        font-weight: 600;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        font-size: 16px;
+        padding: 12px;
+    }
+
+        .form-control:focus {
+            border-color: #3498DB;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+        }
+
+    .btn {
+        padding: 12px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-primary {
+        background-color: #2ECC71;
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background-color: #27AE60;
+            transform: scale(1.05);
+        }
+
+    .d-flex {
+        margin-top: 30px;
+    }
+
+    .text-danger {
+        font-size: 14px;
+    }
+</style>
+
+<div class="container">
+    <div class="header">
+        <h2>Editar Evento</h2>
+        <hr />
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <form asp-action="Edit" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <!-- Campo oculto para EventoId -->
+                <input type="hidden" asp-for="EventoId" />
+
+                <!-- Campo Nome -->
+                <div class="form-group">
+                    <label asp-for="Nome" class="form-label">Nome do Evento</label>
+                    <input asp-for="Nome" class="form-control" placeholder="Digite o nome do evento" />
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Data -->
+                <div class="form-group">
+                    <label asp-for="Data" class="form-label">Data do Evento</label>
+                    <input asp-for="Data" type="datetime-local" class="form-control" value="@Model.Data.ToString("yyyy-MM-ddTHH:mm")" />
+                    <span asp-validation-for="Data" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Local -->
+                <div class="form-group">
+                    <label asp-for="Local" class="form-label">Local do Evento</label>
+                    <input asp-for="Local" class="form-control" placeholder="Digite o local do evento" />
+                    <span asp-validation-for="Local" class="text-danger"></span>
+                </div>
+
+                <!-- Botão de submit para atualizar o evento -->
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+                    <input type="submit" value="Atualizar Evento" class="btn btn-primary" />
+                </div>
+            </form>
+        </div
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

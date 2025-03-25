@@ -14,7 +14,7 @@ builder.Services.AddControllersWithViews();
 // Configuração do Entity Framework Core
 builder.Services.AddDbContext<Context>(options =>
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection"), // <-- Forma correta
+        builder.Configuration.GetConnectionString("DefaultConnection"),
         sqlServerOptionsAction: sqlOptions =>
         {
             sqlOptions.EnableRetryOnFailure(
@@ -39,8 +39,9 @@ app.UseAuthorization();
 // Configuração das rotas
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Evento}/{action=Index}/{id?}"
+    pattern: "{controller=Home}/{action=Index}/{id?}"
 );
+
 
 // Inicializa o banco de dados com os dados padrão
 SeedData.EnsurePopulated(app);

@@ -1,0 +1,158 @@
+﻿@model Avaliativa.Models.Participante
+
+@{
+    ViewData["Title"] = "Detalhes do Participante";
+}
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 36px;
+        font-weight: bold;
+        color: #2C3E50;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .card {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+    .card-header {
+        background-color: #2C3E50;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        padding: 15px;
+        border-radius: 8px;
+    }
+
+    .card-body {
+        padding: 20px;
+        font-size: 16px;
+    }
+
+    .dl-horizontal dt {
+        font-weight: bold;
+        color: #2C3E50;
+    }
+
+    .dl-horizontal dd {
+        font-size: 16px;
+        color: #7F8C8D;
+    }
+
+    .btn {
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-success {
+        background-color: #2ECC71;
+        color: white;
+    }
+
+        .btn-success:hover {
+            background-color: #27AE60;
+            transform: scale(1.05);
+        }
+
+    .btn-warning {
+        background-color: #F39C12;
+        color: white;
+    }
+
+        .btn-warning:hover {
+            background-color: #E67E22;
+            transform: scale(1.05);
+        }
+
+    .btn-secondary {
+        background-color: #BDC3C7;
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            background-color: #95A5A6;
+            transform: scale(1.05);
+        }
+
+    .mt-3 {
+        margin-top: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+</style>
+
+<div class="container">
+    <h1>Detalhes do Participante</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h4>Informações do Participante</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row dl-horizontal">
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Nome)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Nome)
+                </dd>
+
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Evento)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Evento.Nome)
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="text-center mt-3">
+        <form asp-action="GenerateCertificate" method="post">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-success">Gerar Certificado</button>
+        </form>
+    </div>
+
+    <div class="mt-3 text-center">
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Editar</a>
+        <a asp-action="Index" class="btn btn-secondary">Voltar à lista</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

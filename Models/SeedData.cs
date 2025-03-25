@@ -17,8 +17,18 @@ namespace Avaliativa.Models
             if (!context.Eventos.Any())
             {
                 context.Eventos.AddRange(
-                    new Evento { Nome = "Jornada de Informática", Data = new DateTime(2024, 6, 10), Local = "Auditório Prof Edson Antônio Velano" },
-                    new Evento { Nome = "Workshop de C#", Data = new DateTime(2024, 7, 15), Local = "Labratório" }
+                     new Evento
+                     {
+                         Nome = "Jornada de Informática",
+                         Data = new DateTime(2024, 6, 10, 9, 0, 0), // 10 de junho de 2024 às 09:00
+                         Local = "Auditório Prof Edson Antônio Velano"
+                     },
+                     new Evento
+                     {
+                         Nome = "Workshop de C#",
+                         Data = new DateTime(2024, 7, 15, 14, 0, 0), // 15 de julho de 2024 às 14:00
+                         Local = "Laboratório"
+                     }
                 );
 
                 context.Participantes.AddRange(

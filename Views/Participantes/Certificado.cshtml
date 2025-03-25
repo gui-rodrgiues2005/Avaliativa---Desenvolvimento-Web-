@@ -1,0 +1,162 @@
+﻿@model Avaliativa.Models.CertificadoModel
+
+@{
+    ViewData["Title"] = "Certificado de Conclusão";
+}
+
+<style>
+    /* Certificado Container */
+    .certificate-container {
+        width: 80%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        text-align: center;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    }
+
+        /* Títulos principais */
+        .certificate-container h1 {
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Subtítulos */
+        .certificate-container h2 {
+            font-size: 28px;
+            font-weight: normal;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .certificate-container h3 {
+            font-size: 24px;
+            font-weight: normal;
+            color: #0066cc;
+            margin: 10px 0;
+        }
+
+        .certificate-container h4 {
+            font-size: 22px;
+            font-weight: normal;
+            color: #555;
+            margin: 10px 0;
+        }
+
+        .certificate-container p {
+            font-size: 18px;
+            color: #333;
+            margin: 8px 0;
+        }
+
+        /* Linha horizontal */
+        .certificate-container hr {
+            border: 0;
+            height: 1px;
+            background-color: #ccc;
+            margin: 20px 0;
+        }
+
+        /* Footer - Assinatura */
+        .certificate-container .signature {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+            .certificate-container .signature p {
+                margin-top: 40px;
+                color: #333;
+            }
+
+        /* Botão */
+        .certificate-container .btn {
+            margin-top: 30px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .certificate-container .btn:hover {
+                background-color: #005bb5;
+            }
+</style>
+
+<div class="certificate-container">
+    <h1>Certificado de Conclusão</h1>
+
+    <h2>Certificamos que:</h2>
+
+    <h3>@Model.NomeParticipante</h3>
+
+    <p>Participou com sucesso no evento:</p>
+
+    <h4>@Model.NomeEvento</h4>
+
+    <p>Concluído em: @Model.DataConclusao.ToString("dd/MM/yyyy")</p>
+
+    <hr />
+
+    <p>Assinado digitalmente por:</p>
+    <p class="signature"><strong>Organização do Evento</strong></p>
+
+    <div>
+        <a asp-action="Index" class="btn">Voltar à Lista</a>
+        <!-- Botão para Download do Certificado em PDF -->
+        <button id="download-pdf" class="btn">Baixar PDF</button>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        document.getElementById('download-pdf').addEventListener('click', function () {
+            // Criando uma nova instância do jsPDF
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Adicionando o conteúdo ao PDF
+            doc.setFontSize(18);
+
+            // Título
+            doc.text('Certificado de Conclusão', 20, 20);
+
+            // Subtítulo
+            doc.setFontSize(14);
+            doc.text('Certificamos que:', 20, 40);
+            doc.setFontSize(16);
+            doc.text('@Model.NomeParticipante', 20, 50);
+
+            // Evento e Data
+            doc.setFontSize(14);
+            doc.text('Participou com sucesso no evento:', 20, 70);
+            doc.setFontSize(16);
+            doc.text('@Model.NomeEvento', 20, 80);
+
+            doc.setFontSize(14);
+            doc.text('Concluído em: ' + '@Model.DataConclusao.ToString("dd/MM/yyyy")', 20, 100);
+
+            // Linha
+            doc.setLineWidth(0.5);
+            doc.line(20, 110, 190, 110);
+
+            // Assinatura
+            doc.setFontSize(14);
+            doc.text('Assinado digitalmente por:', 20, 120);
+            doc.setFontSize(16);
+            doc.text('Organização do Evento', 20, 130);
+
+            // Gerar o PDF e forçar o download
+            doc.save('certificado_conclusao.pdf');
+        });
+    </script>
+}

@@ -1,46 +1,72 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Avaliativa.Models;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Mono.TextTemplating;
 
-
-namespace Avaliativa.Controllers
+public class EventoController : Controller
 {
-    public class EventoController : Controller
+    private readonly Context _context;
+
+    public EventoController(Context context)
     {
-        public Context context;
+        _context = context;
+    }
 
-        public EventoController(Context ctx)
-        {
-            context = ctx;
-        }
+    public IActionResult Index()
+    {
+        var eventos = _context.Eventos.ToList();
+        return View(eventos);
+    }
 
-        public IActionResult Index()
-        {
-            var participantes = context.Participantes
-                .Include(p => p.Evento) 
-                .ToList();
+    public IActionResult Create()
+    {
+        return View();
+    }
 
-            if (!participantes.Any())
-            {
-                Console.WriteLine("Nenhum participante encontrado!");
-            }
+    [HttpPost]
+    public IActionResult Create(Evento evento)
+    {
+         _context.Eventos.Add(evento);
+         _context.SaveChanges();
+         return RedirectToAction("Index");
+    }
 
-            return View(participantes);
-        }
+    public IActionResult Details(int id)
+    {
+        var evento = _context.Eventos
+        .Include(e => e.Participante)
+        .FirstOrDefault(e => e.EventoId == id);
 
-        [HttpPost]
-        public IActionResult Create(Evento evento)
-        {
-            if (ModelState.IsValid)
-            {
-                context.Eventos.Add(evento);
-                context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(evento);
-        }
+        return View(evento);
+    }
+
+    // Busca o Evento para editar
+    public IActionResult Edit(int id)
+    {
+        var evento = _context.Eventos.Find(id);
+        ViewBag.EventoId = new SelectList(_context.Eventos.OrderBy(e => e.Nome), "EventoId", "Nome");
+        return View(evento);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(Evento evento)
+    {
+        _context.Entry(evento).State = EntityState.Modified;
+        _context.SaveChanges();
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Delete(int id)
+    {
+        var evento = _context.Eventos.FirstOrDefault(e => e.EventoId == id);
+        _context.Eventos.Remove(evento);
+        _context.SaveChanges();
+
+        return RedirectToAction("Index");
     }
 }
